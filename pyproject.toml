@@ -1,0 +1,29 @@
+[project]
+name = "math-exercise-generator"
+version = "0.1.0"
+description = "Generador inteligente de ejercicios de 4.º ESO"
+authors = [
+    {name = "CarlosML26",email = "abelardomartinezlorenzo@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2 (>=3.1.6,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+streamlit     = "^1.34"
+openai        = "^1.30"
+google-genai  = "^0.3"           # SDK Gemini
+python-dotenv = "^1.0"           # gestión de variables
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1"
+black  = "^24.4"
+ruff   = "^0.4"

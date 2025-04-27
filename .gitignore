@@ -1,0 +1,69 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# --- Entornos virtuales ---
+.env
+.venv/
+env/
+venv/
+ENV/
+Pipfile
+Pipfile.lock
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- Configuración IDE (VSCode, PyCharm, etc.) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Archivos temporales ---
+*.log
+*.pot
+*.pyc
+.DS_Store
+*.bak
+*.tmp
+*.old
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+
+# --- Docker ---
+*.dockerfile
+docker-compose.override.yml
+
+# --- Node/npm/yarn (por si usas algo frontend) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- Poetry ---
+poetry.lock
+
+# --- Otros ---
+coverage/
+htmlcov/
+.mypy_cache/
+pytest_cache/
+.cache/
+.tox/
+
+# --- Google Cloud (si subieras keys locales, que no deberías) ---
+*.json
+gcloud_key.json
+
+# --- Database dumps (si en algún momento generas pruebas) ---
+*.sql
+*.sqlite3
+*.db
+*.dump
