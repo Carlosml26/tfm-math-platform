@@ -23,16 +23,35 @@ def extraer_temas_subtemas_con_nombres(temas_subtemas):
         subtemas_map[tema_key.split(":")[0]] = {s.split(":")[0]: s for s in subtemas}
     return temas_map, subtemas_map
 
-def render_latex_response(solution):
-    """Renderiza bloques LaTeX dentro de la solución."""
-    blocks = re.split(r"(\[.*?\])", solution, flags=re.DOTALL)
+
+def convertir_latex_a_markdown(texto):
+    """Convierte comandos simples de LaTeX a Markdown y corrige saltos de línea."""
+    # Negrita
+    texto = re.sub(r'\\textbf\{(.*?)\}', r'**\1**', texto)
+    # Cursiva
+    texto = re.sub(r'\\textit\{(.*?)\}', r'*\1*', texto)
+    # Corregir saltos de línea
+    texto = texto.replace("\\n", "\n\n")  # Streamlit necesita doble salto o se puede usar <br> también
+    return texto
+
+def render_solution(solution):
+    """Renderiza texto normal y fórmulas LaTeX en Streamlit, corrigiendo formato."""
+    # Dividir en bloques de texto y fórmulas
+    blocks = re.split(r"(\$\$.*?\$\$|\$.*?\$)", solution, flags=re.DOTALL)
+
     for block in blocks:
-        if re.fullmatch(r"\[.*?\]", block.strip(), flags=re.DOTALL):
-            latex_code = block.strip()[1:-1]
-            st.latex(latex_code)
+        block = block.strip()
+        if not block:
+            continue
+        if block.startswith('$$') and block.endswith('$$'):
+            st.latex(block[2:-2].strip())  # Fórmulas grandes
+        elif block.startswith('$') and block.endswith('$'):
+            st.latex(block[1:-1].strip())  # Fórmulas inline
         else:
-            if block.strip():
-                st.markdown(block.strip())
+            texto_convertido = convertir_latex_a_markdown(block)
+            st.markdown(texto_convertido)
+
+
 
 def main():
     # Configuración de la página
@@ -76,6 +95,7 @@ def main():
         with st.spinner("Generando ejercicio..."):
             # Llamar a la función del core para generar el enunciado del ejercicio
             enunciado = generate_exercise(tema, subtema, dificultad, tipo, perfil, detalles_adicionales)
+            print("Enunciado generado:", enunciado)
 
         # Transformar respuesta JSON
         try:
@@ -95,7 +115,8 @@ def main():
     # Mostrar enunciado y botón de resolución
     if "ultimo_enunciado" in st.session_state:
         st.subheader("📄 Enunciado")
-        st.markdown(st.session_state["ultimo_enunciado"], unsafe_allow_html=True)
+        render_solution(st.session_state["ultimo_enunciado"])
+        # st.markdown(st.session_state["ultimo_enunciado"], unsafe_allow_html=True)
 
         if st.button("🧠 Ver Resolución Paso a Paso", use_container_width=True):
             st.session_state["mostrar_solucion"] = True
@@ -105,7 +126,15 @@ def main():
                 # Llamar a la función del core para generar la solución
                 solucion = solve_exercise(st.session_state["ultimo_tema"], st.session_state["ultimo_subtema"], st.session_state["ultimo_enunciado"], st.session_state["ultimo_perfil"])
 
-            render_latex_response(solucion)
+            try:
+                solucion = solucion.replace("'", '"').replace("```json", "").replace("```", "")
+                response_json = json.loads(solucion)
+                st.session_state["ultima_solucion"] = response_json.get("solucion", "Error: 'sol' no encontrado en la respuesta.")
+            except json.JSONDecodeError:
+                st.error("Error al procesar la respuesta del modelo. Asegúrate de que sea un JSON válido.")
+                st.session_state["ultima_solucion"] = "Error: No se pudo generar la solución."
+
+            render_solution(st.session_state["ultima_solucion"])
 
     st.markdown("---")
     st.caption("Desarrollado para prácticas del Máster en Formación del Profesorado · 2025")

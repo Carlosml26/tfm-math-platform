@@ -24,9 +24,9 @@ TEMAS_SUBTEMAS = {
 
 PERFILES = [
     "Base:Alumno promedio sin necesidades específicas",
-    "DEA:Alumno con dificultades de aprendizaje (lectura/escritura/matemáticas)",
-    "Superdotado:Alumno con alta capacidad intelectual y ritmo acelerado",
-    "TDAH:Alumno con trastorno de atención con/sin hiperactividad",
+    "DEA:Alumno con dificultades de aprendizaje (lectura/escritura/matemáticas). El ejercicio y la solucion deben remarcarse en la lectura y escritura. Da pistas.",
+    "Superdotado:Alumno con alta capacidad intelectual y ritmo acelerado. El ejercicio tiene que ser más complejo y la solución mas matematica.",
+    "TDAH:Alumno con trastorno de atención con/sin hiperactividad. El ejercicio tiene que tener un lenguaje claro, directo y llamativo.",
     "Otro:Otro perfil educativo no especificado"
 ]
 
@@ -37,6 +37,6 @@ DIFICULTADES = [
 ]
 
 TIPOS_ACTIVIDAD = [
-    "Ejercicio:Aplicación directa, especificando claramente qué debe hacerse",
-    "Problema:Planteamiento contextualizado que requiere razonamiento lógico"
+    "Ejercicio: Resolución de una tarea con datos explícitos y procedimientos conocidos, sin necesidad de interpretar la situación.",
+    "Problema: Situación abierta que requiere interpretar los datos, analizar la información y decidir qué estrategias aplicar para llegar a una solución."
 ]

@@ -9,7 +9,12 @@ Perfil: {{ perfil }}
 
 ---
 **Formato de respuesta:**  
-Proporciona la solución detallada paso a paso en LaTeX.
+- Redacta la solución como texto explicativo normal.
+- Usa LaTeX **solo** para las expresiones matemáticas.
+- Para fórmulas pequeñas dentro del texto, usa `$...$`.
+- Para fórmulas grandes o ecuaciones importantes, usa `$$...$$`.
+- No utilices `\begin{itemize}`, `\begin{enumerate}`, `\documentclass`, ni ningún entorno de LaTeX.
+- No uses `\section`, `\subsection` ni nada similar.
 
 Devuelve únicamente este JSON:
 {"solucion": "Aquí va la solución en LaTeX"}
